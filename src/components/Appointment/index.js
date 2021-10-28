@@ -6,13 +6,13 @@ import Show from "./Show";
 import Empty from "./Empty";
 
 export default function Appointment(props) {
-  const apptMessage = (time) => {
-    if (!time) {
-      return "No appointments"
-    } else {
-      return `Appointment at ${props.time}`
-    }
-  }
+  // const apptMessage = (time) => {
+  //   if (!time) {
+  //     return "No appointments"
+  //   } else {
+  //     return `Appointment at ${props.time}`
+  //   }
+  // }
 
   return (
     <article className="appointment">
