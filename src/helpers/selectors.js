@@ -18,3 +18,22 @@ export function getAppointmentsForDay(state, day) {
     return filterDay.appointments.map((id) => state.appointments[id])
   }
 }
+
+export function getInterview(state, interview) {
+  // Get the student name and interviewer's details
+  // console.log(state.interviewers["1"]) // works to display id=1
+  // console.log(interview.student)
+  // console.log(interview.interviewer)
+
+  if (!interview) {
+    return null;
+  }
+
+  // This needs to be below the null values
+  const interviewerNum = interview.interviewer;
+  
+  return {
+    interviewer: state.interviewers[interviewerNum],
+    student: interview.student
+  }
+}
