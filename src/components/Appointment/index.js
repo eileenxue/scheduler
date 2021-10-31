@@ -8,13 +8,6 @@ import Form from "./Form";
 import useVisualMode from "hooks/useVisualMode";
 
 export default function Appointment(props) {
-  // const apptMessage = (time) => {
-  //   if (!time) {
-  //     return "No appointments"
-  //   } else {
-  //     return `Appointment at ${props.time}`
-  //   }
-  // }
 
   const EMPTY = "EMPTY";
   const SHOW = "SHOW";
@@ -27,14 +20,7 @@ export default function Appointment(props) {
   return (
     <article className="appointment">
       <Header time={props.time} />
-      {/* {props.interview ? (
-        <Show
-          student={props.interview.student}
-          interviewer={props.interview.interviewer.name}
-        />
-      ) : (
-        <Empty />
-      )} */}
+     
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
       {mode === SHOW && (
         <Show
@@ -42,9 +28,10 @@ export default function Appointment(props) {
           interviewer={props.interview.interviewer.name}
         />
       )}
+      
       {mode === CREATE && (
         <Form
-          interviewers={[]}
+          interviewers={props.interviewers}
           onCancel={back}
         />
       )}
