@@ -54,6 +54,9 @@ export default function Application(props) {
       ...state,
       appointments
     });
+
+    // This works, may need to modify it a bit from W8D1
+    return axios.put(`http://localhost:8001/api/appointments/${id}`, {interview})
   }
 
   const appointments = getAppointmentsForDay(state, state.day);
