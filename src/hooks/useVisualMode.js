@@ -11,6 +11,7 @@ export default function useVisualMode(initial) {
     if (replace){
       setMode(newMode)
       // Test passes, but should use setHistory
+      // setHistory(prev => ([...prev, mode]))
     } else {
       setMode(newMode)
       history.push(newMode)
