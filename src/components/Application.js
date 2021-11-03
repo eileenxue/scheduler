@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React from "react";
 
 import "components/Application.scss";
 
+import useApplicationData from "hooks/useApplicationData";
 import DayList from "./DayList";
 import Appointment from "./Appointment";
 
@@ -10,75 +10,14 @@ import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "help
 
 export default function Application(props) {
 
-  // const [day, setDay] = useState("Monday");
-  // const [days, setDays] = useState([]);
-
-  const setDay = day => setState({ ...state, day });
-  // const setDays = (days) => setState(prev => ({ ...prev, days }));
-
-  const [state, setState] = useState({
-    day: "Monday",
-    days: [],
-    appointments: {}, 
-    // interviewers: {}
-  });
-
-  useEffect(() => {
-    // axios.get("http://localhost:8001/api/days").then(response => {
-    //   setDays([...response.data]);
-    // })
-    Promise.all([
-      axios.get('http://localhost:8001/api/days'),
-      axios.get('http://localhost:8001/api/appointments'),
-      axios.get('http://localhost:8001/api/interviewers')
-    ]).then((all) => {
-      // set your states here with the correct values...
-      setState(prev => ({...prev, days: all[0].data, appointments: all[1].data, interviewers: all[2].data }));
-      console.log(all[2].data) // fetch interviewer data
-    })
-  }, [])
-
-  function bookInterview(id, interview) {
-    console.log(id, interview);
-    const appointment = {
-      ...state.appointments[id],
-      interview: { ...interview }
-    };
-
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment
-    };
-
-    setState({
-      ...state,
-      appointments
-    });
-
-    // This works, may need to modify it a bit from W8D1
-    return axios.put(`http://localhost:8001/api/appointments/${id}`, {interview})
-  }
-
-  function cancelInterview(id) {
-    const appointment = {
-      ...state.appointments[id],
-      interview: null
-    };
-
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment
-    };
-
-    setState({
-      ...state,
-      appointments
-    });
-
-    return axios.delete(`http://localhost:8001/api/appointments/${id}`)
-
-  }
-
+  // Move to useApplicationData from W8D1
+  const {
+    state,
+    setDay,
+    bookInterview,
+    cancelInterview
+  } = useApplicationData();
+  
   const appointments = getAppointmentsForDay(state, state.day);
   const interviewers = getInterviewersForDay(state, state.day);
 
