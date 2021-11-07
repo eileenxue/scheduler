@@ -6,16 +6,22 @@ export default function useVisualMode(initial) {
 
   // Create transition functionality
   const transition = (newMode, replace = false) => {
-
     // If replace is true, set history to replace the current mode
-    if (replace){
-      setMode(newMode)
-      // Test passes, but should use setHistory
-      // setHistory(prev => ([...prev, mode]))
-    } else {
-      setMode(newMode)
-      history.push(newMode)
+
+    setMode(newMode)
+
+    if (!replace){
+      setHistory(prev => [...prev, newMode])
     }
+
+    // if (replace){
+    //   setMode(newMode)
+    //   // Test passes, but should use setHistory
+    //   // setHistory(prev => ([...prev, mode]))
+    // } else {
+    //   setMode(newMode)
+    //   history.push(newMode)
+    // }
   }
 
   // Create back/history functionality

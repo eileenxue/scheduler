@@ -12,6 +12,7 @@ export default function useApplicationData(props) {
     day: "Monday",
     days: [],
     appointments: {}, 
+    interviews: {} // not sure if needed?
   });
 
   useEffect(() => {
@@ -24,7 +25,7 @@ export default function useApplicationData(props) {
       // set your states here with the correct values...
       setState(prev => ({...prev, days: all[0].data, appointments: all[1].data, interviewers: all[2].data }));
       console.log(all[2].data) // fetch interviewer data
-    })
+    }).catch((err) => console.error(err))
   }, [])
 
   function bookInterview(id, interview) {
@@ -39,13 +40,11 @@ export default function useApplicationData(props) {
       [id]: appointment
     };
 
-    setState({
-      ...state,
-      appointments
-    });
-
     // This works, may need to modify it a bit from W8D1
-    return axios.put(`http://localhost:8001/api/appointments/${id}`, {interview})
+    return axios
+      .put(`http://localhost:8001/api/appointments/${id}`, {interview})
+      .then(() => setState((prev) => ({...prev, appointments})));
+
   }
 
   function cancelInterview(id) {
@@ -59,12 +58,9 @@ export default function useApplicationData(props) {
       [id]: appointment
     };
 
-    setState({
-      ...state,
-      appointments
-    });
-
-    return axios.delete(`http://localhost:8001/api/appointments/${id}`)
+    return axios
+      .delete(`http://localhost:8001/api/appointments/${id}`)
+      .then(() => setState((prev) => ({...prev, appointments})));
   }
 
   return {

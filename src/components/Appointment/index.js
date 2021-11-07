@@ -40,7 +40,7 @@ export default function Appointment(props) {
       .catch(error => transition(ERROR_SAVE, true));
   }
 
-  function deleteInterview() {
+  function deleteInterview(id) {
     transition(DELETE, true);
 
     props.cancelInterview(props.id)
@@ -58,7 +58,7 @@ export default function Appointment(props) {
         />
       )}
 
-      {mode === SHOW && (
+      {mode === SHOW && props.interview && (
         <Show
           student={props.interview.student}
           interviewer={props.interview.interviewer}

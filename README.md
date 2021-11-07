@@ -1,5 +1,8 @@
 # Interview Scheduler
 
+## Demo
+(Show screenshots here)
+
 ## Setup
 
 Install dependencies with `npm install`.
@@ -21,3 +24,14 @@ npm test
 ```sh
 npm run storybook
 ```
+
+## Dependencies
+- React
+- Axios
+- classnames
+- normalize
+
+## devDependencies
+- Babel
+- Storybook
+- Testing Library
