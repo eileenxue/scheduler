@@ -1,22 +1,17 @@
 import { useState, useEffect} from "react";
 import axios from "axios";
 
-export default function useApplicationData(props) {
-  // const [day, setDay] = useState("Monday");
-  // const [days, setDays] = useState([]);
-
-  const setDay = day => setState({ ...state, day });
-  // const setDays = (days) => setState(prev => ({ ...prev, days }));
-
+export default function useApplicationData() {
+  
   const [state, setState] = useState({
     day: "Monday",
     days: [],
-    appointments: {}, 
-    // interviews: {} // not sure if needed?
+    appointments: {}
   });
 
-  useEffect(() => {
+  const setDay = day => setState({ ...state, day });
 
+  useEffect(() => {
     Promise.all([
       axios.get('http://localhost:8001/api/days'),
       axios.get('http://localhost:8001/api/appointments'),
@@ -24,7 +19,6 @@ export default function useApplicationData(props) {
     ]).then((all) => {
       // set your states here with the correct values...
       setState(prev => ({...prev, days: all[0].data, appointments: all[1].data, interviewers: all[2].data }));
-      console.log(all[2].data) // fetch interviewer data
     }).catch((err) => console.error(err))
   }, [])
 
@@ -60,7 +54,6 @@ export default function useApplicationData(props) {
 
     let day = {
       ...state.days.find(d => d.name === state.day), 
-      // spots: state.days[dayIndex]
       spots: updateSpots()
     };
 
