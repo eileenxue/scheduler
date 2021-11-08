@@ -43,10 +43,25 @@ export default function useApplicationData(props) {
     // Find the index of the day
     const dayIndex = state.days.findIndex(day => day.appointments.includes(id));
 
-    // Update to remove 1 spot after creating new interview
-    const day = {
+    // Check if it's editing interview
+    const editInterview = state.appointments[id].interview;
+
+    // Update spots based on criterias
+    function updateSpots(){
+      let spots = state.days[dayIndex].spots;
+
+      // Create new interview removes 1 spot, otherwise stay the same
+      if(!editInterview){
+        return spots - 1
+      } else{
+        return spots
+      }
+    }
+
+    let day = {
       ...state.days.find(d => d.name === state.day), 
-      spots: state.days[dayIndex].spots - 1
+      // spots: state.days[dayIndex]
+      spots: updateSpots()
     };
 
     const days = state.days
