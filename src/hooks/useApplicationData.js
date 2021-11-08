@@ -12,7 +12,7 @@ export default function useApplicationData(props) {
     day: "Monday",
     days: [],
     appointments: {}, 
-    interviews: {} // not sure if needed?
+    // interviews: {} // not sure if needed?
   });
 
   useEffect(() => {
@@ -40,11 +40,21 @@ export default function useApplicationData(props) {
       [id]: appointment
     };
 
-    // This works, may need to modify it a bit from W8D1
+    // Find the index of the day
+    const dayIndex = state.days.findIndex(day => day.appointments.includes(id));
+
+    // Update to remove 1 spot after creating new interview
+    const day = {
+      ...state.days.find(d => d.name === state.day), 
+      spots: state.days[dayIndex].spots - 1
+    };
+
+    const days = state.days
+    days[dayIndex] = day;
+
     return axios
       .put(`http://localhost:8001/api/appointments/${id}`, {interview})
-      .then(() => setState((prev) => ({...prev, appointments})));
-
+      .then(() => setState((prev) => ({...prev, appointments, days})));
   }
 
   function cancelInterview(id) {
@@ -58,9 +68,21 @@ export default function useApplicationData(props) {
       [id]: appointment
     };
 
+    // Find the index of the day
+    const dayIndex = state.days.findIndex(day => day.appointments.includes(id));
+
+    // Update to add 1 spot after cancelling interview
+    const day = {
+      ...state.days.find(d => d.name === state.day), 
+      spots: state.days[dayIndex].spots + 1
+    };
+
+    const days = state.days
+    days[dayIndex] = day;
+
     return axios
       .delete(`http://localhost:8001/api/appointments/${id}`)
-      .then(() => setState((prev) => ({...prev, appointments})));
+      .then(() => setState((prev) => ({...prev, appointments, days})));
   }
 
   return {
